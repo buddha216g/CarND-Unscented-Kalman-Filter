@@ -96,11 +96,6 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
     // skip predict/update if sensor type is ignored
     if ((meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_) ||
         (meas_package.sensor_type_ == MeasurementPackage::LASER && use_laser_)) {
-        
-        
-        /*******************************
-         Initialization
-         *******************************/
   
                           
         if (!is_initialized_) {
