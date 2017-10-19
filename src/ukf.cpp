@@ -178,7 +178,7 @@ void UKF::Prediction(double delta_t) {
   vector, x_. Predict sigma points, the state, and the state covariance matrix.
   */
     
-    /*****************       Generate Sigma Points    *****************************/
+    /*****************       Generate Sigma Points    ----Lecture Notes *****************************/
     
     //create sigma point matrix
     MatrixXd Xsig = MatrixXd(n_x_, 2 * n_x_ + 1);
@@ -199,7 +199,7 @@ void UKF::Prediction(double delta_t) {
         Xsig.col(i + 1 + n_x_) = x_ - sqrt(lambda_ + n_x_) * A.col(i);
     }
     
-    /*****************   Augment Sigma Points             ***********************/
+    /*****************   Augment Sigma Points            ----Lecture Notes  ***********************/
     //create augmented mean vector
     VectorXd x_aug = VectorXd(n_aug_);
     
@@ -234,8 +234,8 @@ void UKF::Prediction(double delta_t) {
         Xsig_aug.col(i + 1 + n_aug_) = x_aug - sqrt(lambda_ + n_aug_) * L.col(i);
     }
     
-    /***********************  Predict Sigma Points       **********************/
-    //predict sigma points
+    /***********************  Predict Sigma Points       ----Lecture Notes **********************/
+    //predict sigma points 
     for (int i = 0; i < 2 * n_aug_ + 1; i++)
     {
         //extract values for better readability
@@ -280,9 +280,9 @@ void UKF::Prediction(double delta_t) {
         Xsig_pred_(4, i) = yawd_p;
     }
     
-    /************ Convert Predicted Sigma Points to Mean/Covariance    ***********/
+    /************ Convert Predicted Sigma Points to Mean/Covariance    ----Lecture Notes ***********/
     
-    // set weights
+    // set weights 
     double weight_0 = lambda_ / (lambda_ + n_aug_);
     weights_(0) = weight_0;
     for (int i = 1; i < 2 * n_aug_ + 1; i++) {  //2n+1 weights
@@ -319,7 +319,9 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   TODO: Complete this function! Use lidar data to update the belief about the object's
   position. Modify the state vector, x_, and covariance, P_.
   You'll also need to calculate the lidar NIS.
-  */
+  
+  ---- MODIFIED Lecture Notes
+*/
     
     //extract measurement as VectorXd
     VectorXd z = meas_package.raw_measurements_;
@@ -368,8 +370,8 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
     
     //create matrix for cross correlation Tc
     MatrixXd Tc = MatrixXd(n_x_, n_z);
-    
-    /**********************  UKF Update for Lidar     *************************/
+     
+    /**********************  UKF Update for Lidar     ----modified Lecture Notes *************************/
     //calculate cross correlation matrix
     Tc.fill(0.0);
     for (int i = 0; i < 2 * n_aug_ + 1; i++) {  //2n+1 simga points
@@ -406,6 +408,8 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   TODO: Complete this function! Use radar data to update the belief about the object's
   position. Modify the state vector, x_, and covariance, P_.
   You'll also need to calculate the radar NIS.
+  
+  ----Lecture Notes
   */
     //extract measurement as VectorXd
     VectorXd z = meas_package.raw_measurements_;
@@ -465,7 +469,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     //create matrix for cross correlation Tc
     MatrixXd Tc = MatrixXd(n_x_, n_z);
     
-    /*********************  UKF Update for Radar    **************************/
+    /*********************  UKF Update for Radar    ----Lecture Notes **************************/
     //calculate cross correlation matrix
     Tc.fill(0.0);
     for (int i = 0; i < 2 * n_aug_ + 1; i++) {  //2n+1 simga points
